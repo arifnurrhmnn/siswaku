@@ -307,4 +307,30 @@ class SiswaController extends Controller
             $delete = Storage::disk('foto')->delete($siswa->foto);
         }
     }
+
+    public function cari(Request $request) {
+        $kata_kunci = trim($request->input('kata_kunci')); //mengambil nilai kata kunci dari form
+
+        if (!empty($kata_kunci)) { //jika kata kunci tidak kosong
+            $jenis_kelamin = $request->input('jenis_kelamin'); //mendapatkan jenis kelamin
+            $id_kelas = $request->input('id_kelas'); //mendapatkan kelas
+
+            //Query
+            $query = Siswa::where('nama_siswa', 'LIKE', '%' . $kata_kunci . '%'); //query pencarian berdasarkan nama
+            (!empty($jenis_kelamin)) ? $query->where('jenis_kelamin', $jenis_kelamin) : ''; //jika dropdown jenis_kelamin dipilih, tambahkan where jenis_kelamin pada query
+            (!empty($id_kelas)) ? $query->where('id_kelas', $id_kelas) : ''; //jika dropdown kelas dipilih, tambahkan where id_kelas pada query
+            $siswa_list = $query->paginate(2); //menampilkan 2 siswa per halaman
+
+            //URL links pagination
+            $pagination = (!empty($jenis_kelamin)) ? $siswa_list->appends(['jenis_kelamin' => $jenis_kelamin]) : ''; //jika dropdown jenis_kelamin dipilih, jalankan appends()
+            $pagination = (!empty($id_kelas)) ? $siswa_list->appends(['id_kelas' => $id_kelas]) : ''; //jika dropdown kelas dipilih, jalankan appends()
+            $pagination = $siswa_list->appends(['kata_kunci' => $kata_kunci]); //appends() = untuk menambahkan querystring pada url link
+
+            $jumlah_siswa = $siswa_list->total(); //mencari jumlah hasil pencarian
+            
+            return view('siswa.index', compact('siswa_list', 'kata_kunci', 'pagination', 'jumlah_siswa', 'id_kelas', 'jenis_kelamin'));
+        }
+
+        return redirect('siswa'); //redirect jika kata kunci kosong
+    }
 }

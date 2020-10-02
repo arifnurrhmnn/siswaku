@@ -4,6 +4,7 @@
 
 Route::get('/', 'PagesController@homepage');
 Route::get('about', 'PagesController@about');
+Route::get('siswa/cari', 'SiswaController@cari');
 
 // Menangani method index(), create(), store(), show(), edit(), destroy(). 
 Route::resource('siswa', 'SiswaController');

@@ -26,6 +26,7 @@
     <script src="{{ asset('js/jquery-3.5.1.slim.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('bootstrap_452/js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/siswakuapp.js') }}"></script>
 
 </body>
 

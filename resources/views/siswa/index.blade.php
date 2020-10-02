@@ -3,6 +3,7 @@
 @section('main')
 <div id="siswa" class="mt-4">
     <h2>Siswa</h2>
+    @include('siswa.form_pencarian')
 
     @if (!empty($siswa_list))
     <table class="table">
@@ -58,7 +59,7 @@
 
     <div class="tombol-nav">
         <div>
-            <a href="siswa/create" class="btn btn-primary">Tambah Siswa</a>
+            <a href="{{ url('siswa/create') }}" class="btn btn-primary">Tambah Siswa</a>
         </div>
     </div>
 </div>
