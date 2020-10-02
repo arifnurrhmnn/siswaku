@@ -15,6 +15,7 @@ class Siswa extends Model
         'tanggal_lahir',
         'jenis_kelamin',
         'id_kelas',
+        'foto',
     ];
 
     protected $dates = ['tanggal_lahir'];

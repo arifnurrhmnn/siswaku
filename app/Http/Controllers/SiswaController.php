@@ -10,6 +10,8 @@ use App\Kelas; //memanggil class Model Kelas
 use App\Hobi; //memanggil class Model Hobi 
 
 use App\Http\Requests\SiswaRequest; //memanggil class SiswaRequest{}
+
+use Storage; //memanggil class STorage{}
 // use Validator; //Memanggil class facade validator
 
 class SiswaController extends Controller
@@ -64,16 +66,38 @@ class SiswaController extends Controller
         //         ->withInput() //menampilkan inputan sebelumnya
         //         ->withErrors($validator); //menampilkan pesan error
         // }
+
+        //Foto
+        // if ($request->hasFile('foto')) { //jika pada SiswaRequest{} memilii file
+        //     $foto = $request->file('foto'); //medapatkan instance dari file
+        //     $ext = $foto->getClientOriginalExtension(); //mendapatkan ekstensi dari file
+        //     if ($request->file('foto')->isValid()) { //jika proses upload berhasil
+        //         $foto_name = date('YmdHis'). ".$ext"; //menambah nama file foto dengan date dan extensi
+        //         $upload_path = 'fotoupload'; //path folder untuk menyimpan foto (siswaku/publik/fotoupload)
+        //         $request->file('foto')->move($upload_path, $foto_name); //memindahkan file yang sudah diupload
+        //         $input['foto'] = $foto_name; //menyimpan nama file baru ke kolom foto di table siswa dalam database
+        //     }
+        // }
+
+        //Upload Foto
+        if ($request->hasFile('foto')) { //jika pada SiswaRequest{} memilii file
+            $input['foto'] = $this->uploadFoto($request); //menyimpan nama file baru ke kolom foto di table siswa dalam database
+        }
         
         //menyimpan data siswa jika lolos validasi
         $siswa = Siswa::create($input); 
 
         //menimpan data teepon jika lolos validasi
+        // if ($request->filled('nomor_telepon')) {
+        //     //menjalankan kode dibawah jika nomer_telepon diisi
+        //     $telepon = new Telepon; //membuat instance dari object Telepon{} jika user menginputkan nomor_telepon
+        //     $telepon->nomor_telepon = $request->input('nomor_telepon'); //mengatur nilai atribut nomor_telepon, nilai didapat dari input form nomor_telepon
+        //     $siswa->telepon()->save($telepon); //menyimpan data telepon
+        // }
+
+        //menyimpan data telepon jika lolos validasi
         if ($request->filled('nomor_telepon')) {
-            //menjalankan kode dibawah jika nomer_telepon diisi
-            $telepon = new Telepon; //membuat instance dari object Telepon{} jika user menginputkan nomor_telepon
-            $telepon->nomor_telepon = $request->input('nomor_telepon'); //mengatur nilai atribut nomor_telepon, nilai didapat dari input form nomor_telepon
-            $siswa->telepon()->save($telepon); //menyimpan data telepon
+            $this->insertTelepon($siswa, $request);
         }
         
         //menyimpan data hobi jika lolos validasi
@@ -111,6 +135,26 @@ class SiswaController extends Controller
         // $siswa = Siswa::findOrFail($id);
         $input = $request->all();
 
+        //Foto. Cek adakah foto?
+        // if ($request->hasFile('foto')) {
+            
+        //     //hapus foto lama jika ada foto baru
+        //     $exist = Storage::disk('foto')->exists($siswa->foto);
+        //     if (isset($siswa->foto) && $exist) {
+        //         $delete = Storage::disk('foto')->delete($siswa->foto);
+        //     }
+
+        //     //upload foto baru
+        //     $foto = $request->file('foto');
+        //     $ext = $foto->getClientOriginalExtension();
+        //     if ($request->file('foto')->isValid()) {
+        //         $foto_name = date('YmdHis');
+        //         $upload_path = 'fotoupload';
+        //         $request->file('foto')->move($upload_path, $foto_name);
+        //         $input['foto'] = $foto_name;
+        //     }
+        // }
+
         // $this->validate($request, [
         //     'nisn' => 'required|string|size:4|unique:siswa,nisn,' . $request->input('id'),
         //     'nama_siswa' => 'required|string|max:30',
@@ -125,11 +169,78 @@ class SiswaController extends Controller
         //         ->withInput() //menampilkan inputan  sebelumnya
         //         ->withErrors($validator); //menampilkan pesan error
         // }
+
+        //Upload Foto
+        if ($request->hasFile('foto')) { //jika pada SiswaRequest{} memilii file
+            $input['foto'] = $this->updateFoto($siswa, $request); //menyimpan nama file baru ke kolom foto di table siswa dalam database
+        }
         
         //update data siswa jika lolos validasi
-        $siswa->update($request->all());
+        $siswa->update($input);
 
         //update nomor telepon jika sebelumnya sudah ada nomor telepon
+        // if ($siswa->telepon) {
+        //     //jika telepon diisi, update
+        //     if ($request->filled('nomor_telepon')) {
+        //         $telepon = $siswa->telepon;
+        //         $telepon->nomor_telepon = $request->input('nomor_telepon');
+        //         $siswa->telepon()->save($telepon);
+        //     }
+        //     //jika telepon tidak diisi, hapus
+        //     else {
+        //         $siswa->telepon()->delete();
+        //     }
+        // }
+
+        //buat entry baru, jika sebelumnya tidak ada nomor telepon
+        // else {
+        //     if ($request->filled('nomor_telepon')) {
+        //         $telepon = new Telepon;
+        //         $telepon->nomor_telepon = $request->input('nomor_telepon');
+        //         $siswa->telepon()->save($telepon);
+        //     }
+        // }
+
+        //Update telepon
+        $this->updateTelepon($siswa, $request);
+
+        //update data hobi di table hobi_siswa
+        $siswa->hobi()->sync($request->input('hobi_siswa'));
+
+        return redirect('siswa');
+    }
+
+    public function destroy(Siswa $siswa)
+    {
+        // $siswa = Siswa::findOrFail($id);
+
+        //hapus foto kalo ada
+        // $exist = Storage::disk('foto')->exists($siswa->foto);
+        // if (isset($siswa->foto) && $exist) {
+        //     $delete = Storage::disk('foto')->delete($siswa->foto);
+        // }
+
+        //hapus foto kalo ada
+        $this->hapusFoto($siswa);
+
+        //hapus data siswa
+        $siswa->delete();
+        return redirect('siswa');
+    }
+
+    public function dateMutator()
+    {
+        $siswa = Siswa::findOrFail(1);
+        return "Umur {$siswa->nama_siswa} adalah {$siswa->tanggal_lahir->age} tahun";
+    }
+
+    private function insertTelepon(Siswa $siswa, SiswaRequest $request) {
+        $telepon = new Telepon; //membuat instance dari object Telepon{} jika user menginputkan nomor_telepon
+        $telepon->nomor_telepon = $request->input('nomor_telepon'); //mengatur nilai atribut nomor_telepon, nilai didapat dari input form nomor_telepon
+        $siswa->telepon()->save($telepon); //menyimpan data telepon
+    }
+
+    private function updateTelepon(Siswa $siswa, SiswaRequest $request){
         if ($siswa->telepon) {
             //jika telepon diisi, update
             if ($request->filled('nomor_telepon')) {
@@ -142,7 +253,8 @@ class SiswaController extends Controller
                 $siswa->telepon()->delete();
             }
         }
-        //buat entry baru, jika sebelumnya tidak ada nomor telepon
+
+        // buat entry baru, jika sebelumnya tidak ada nomor telepon
         else {
             if ($request->filled('nomor_telepon')) {
                 $telepon = new Telepon;
@@ -150,23 +262,49 @@ class SiswaController extends Controller
                 $siswa->telepon()->save($telepon);
             }
         }
-
-        //update data hobi di table hobi_siswa
-        $siswa->hobi()->sync($request->input('hobi_siswa'));
-
-        return redirect('siswa');
     }
 
-    public function destroy(Siswa $siswa)
-    {
-        // $siswa = Siswa::findOrFail($id);
-        $siswa->delete();
-        return redirect('siswa');
+    private function uploadFoto(SiswaRequest $request) {
+        $foto = $request->file('foto'); //medapatkan instance dari file
+        $ext = $foto->getClientOriginalExtension(); //mendapatkan ekstensi dari file
+    
+        if ($request->file('foto')->isValid()) { //jika proses upload berhasil
+            $foto_name = date('YmdHis'). ".$ext"; //menambah nama file foto dengan date dan extensi
+            $upload_path = 'fotoupload'; //path folder untuk menyimpan foto (siswaku/publik/fotoupload)
+            $request->file('foto')->move($upload_path, $foto_name); //memindahkan file yang sudah diupload
+            return $foto_name; //menyimpan nama file baru ke kolom foto di table siswa dalam database
+        }
+
+        return false;
     }
 
-    public function dateMutator()
-    {
-        $siswa = Siswa::findOrFail(1);
-        return "Umur {$siswa->nama_siswa} adalah {$siswa->tanggal_lahir->age} tahun";
+    private function updateFoto(Siswa $siswa, SiswaRequest $request) {
+        //jika user mengisi foto
+        if ($request->hasFile('foto')) {
+            
+            //hapus foto lama jika ada foto baru
+            $exist = Storage::disk('foto')->exists($siswa->foto);
+            if (isset($siswa->foto) && $exist) {
+                $delete = Storage::disk('foto')->delete($siswa->foto);
+            }
+
+            //upload foto baru
+            $foto = $request->file('foto');
+            $ext = $foto->getClientOriginalExtension();
+            if ($request->file('foto')->isValid()) {
+                $foto_name = date('YmdHis'). ".$ext";
+                $upload_path = 'fotoupload';
+                $request->file('foto')->move($upload_path, $foto_name);
+                return $foto_name;
+            }
+        }
+    }
+
+    private function hapusFoto(Siswa $siswa) {
+        $is_foto_exist = Storage::disk('foto')->exists($siswa->foto);
+
+        if ($is_foto_exist) {
+            $delete = Storage::disk('foto')->delete($siswa->foto);
+        }
     }
 }

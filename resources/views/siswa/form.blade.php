@@ -103,7 +103,32 @@
                                 @endif
                             </div>
 
-                        <div class="form-group">
+                            @if ($errors->any())
+                            <div class="custom-file {{ $errors->has('foto')? 'has-error' : 'has-success' }}">
+                                @else
+                                <div class="custom-file">
+                                    @endif
+                                    {!! Form::label('foto', 'Masukkan foto:', ['class' => 'custom-file-label']) !!}
+                                    {!! Form::file('foto', ['class' => 'custom-file-input']) !!}
+                                    @if ($errors->has('foto'))
+                                    <span class="help-block">{{ $errors->first('foto') }}</span>
+                                    @endif
+                                </div>
+                                <!-- Menampilkan foto -->
+                                @if (isset($siswa))
+                                    @if (isset($siswa->foto))
+                                        <img src="{{ asset('fotoupload/' . $siswa->foto) }}">
+                                    @else
+                                        @if ($siswa->jenis_kelamin == 'L')
+                                        <img src="{{ asset('fotoupload/dummymale.jpg') }}">
+                                        @else
+                                        <img src="{{ asset('fotoupload/dummyfemale.jpg') }}">
+                                        @endif
+                                    @endif
+                                @endif
+
+
+                        <div class="form-group mt-5">
                             {!! Form::submit($submitButtonText, ['class' => 'btn btn-primary form-control']) !!}
                         </div>
 

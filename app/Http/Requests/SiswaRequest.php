@@ -38,6 +38,7 @@ class SiswaRequest extends FormRequest
             'jenis_kelamin' => 'required|in:L,P',
             'nomor_telepon' => $telepon_rules,
             'id_kelas' => 'required',
+            'foto' => 'sometimes|nullable|image|mimes:jpeg,jpg,png|max:500|dimensions:width=120,height=180',
         ];
     }
 }

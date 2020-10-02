@@ -43,6 +43,15 @@ return [
 
     'disks' => [
 
+        /**
+         * mengatur path untk storage foto ada di public/fotoupload
+         * berhubungan dengan perintah $request->file('foto)
+         */
+        'foto' => [
+            'driver' => 'local',
+            'root' => public_path('fotoupload'),
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),
