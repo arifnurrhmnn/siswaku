@@ -166,7 +166,11 @@ return [
             'string' => 'Nama KELAS harus berupa string.',
             'max' => 'Nama KELAS maksimal 20 karakter.', 
         ],
-
+        'nama_hobi' => [
+            'required' => 'Nama HOBI harus diisi.',
+            'string' => 'Nama HOBI harus berupa string.',
+            'max' => 'Nama HOBI maksimal 30 karakter.', 
+        ],
     ],
 
     /*

@@ -26,6 +26,16 @@
             </li>
             @endif
 
+            @if (!empty($halaman) && $halaman == 'hobi')
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ url('hobi') }}">Hobi<span class="sr-only">(current)</span></a>
+            </li>
+            @else
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('hobi') }}">Hobi</a>
+            </li>
+            @endif
+
             @if (!empty($halaman) && $halaman == 'about')
             <li class="nav-item active">
                 <a class="nav-link" href="{{ url('about') }}">About<span class="sr-only">(current)</span></a>
