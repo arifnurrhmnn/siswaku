@@ -25,8 +25,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        // jika route mengandung siswa, maka lekatkan model App\Siswa dengan route itu
-        \Route::model('siswa', \App\siswa::class);
+        \Route::model('siswa', \App\siswa::class); // jika route mengandung siswa, maka lekatkan model App\Siswa dengan route itu
+        \Route::model('kelas', \App\Kelas::class); // jika route mengandung kelas, maka lekatkan model App\Kelas dengan route itu
     }
 
     /**

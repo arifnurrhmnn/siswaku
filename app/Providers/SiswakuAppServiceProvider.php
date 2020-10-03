@@ -23,7 +23,10 @@ class SiswakuAppServiceProvider extends ServiceProvider
      * @return void
      */
     public function boot()
-    {
+    {   
+        /**
+         * memberikan efek menu pada navbar saat menu active
+         */
         $halaman = '';
         if (Request::segment(1) == 'siswa') {
             $halaman = 'siswa';
@@ -31,6 +34,10 @@ class SiswakuAppServiceProvider extends ServiceProvider
         if (Request::segment(1) == 'about') {
             $halaman = 'about';
         }
+        if (Request::segment(1) == 'kelas') {
+            $halaman = 'kelas';
+        }
+        
         view()->share('halaman', $halaman);
     }
 }
