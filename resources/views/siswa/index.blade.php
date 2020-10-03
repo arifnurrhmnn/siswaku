@@ -3,6 +3,9 @@
 @section('main')
 <div id="siswa" class="mt-4">
     <h2>Siswa</h2>
+
+    @include('_partial.flash_message')
+    
     @include('siswa.form_pencarian')
 
     @if (!empty($siswa_list))

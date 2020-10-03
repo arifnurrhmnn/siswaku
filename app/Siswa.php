@@ -81,6 +81,14 @@ class Siswa extends Model
     // {
     //     return strtolower($nama_siswa);
     // }
-
     
+    //Scope Kelas
+    public function scopeKelas($query, $id_kelas){
+        return $query->where('id_kelas', $id_kelas);
+    }
+
+    //Scope Jenis Kelamin
+    public function scopeJenisKelamin($query, $jenis_kelamin){
+        return $query->where('jenis_kelamin', $jenis_kelamin);
+    }
 }

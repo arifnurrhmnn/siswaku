@@ -12,7 +12,10 @@ use App\Hobi; //memanggil class Model Hobi
 use App\Http\Requests\SiswaRequest; //memanggil class SiswaRequest{}
 
 use Storage; //memanggil class STorage{}
+
+use Session; //memanggil class Session{} untuk flash message
 // use Validator; //Memanggil class facade validator
+
 
 class SiswaController extends Controller
 {
@@ -102,6 +105,8 @@ class SiswaController extends Controller
         
         //menyimpan data hobi jika lolos validasi
         $siswa->hobi()->attach($request->input('hobi_siswa')); //attach = menerima argument dari input hobi[]
+
+        Session::flash('flash_message', 'Data siswa berhasil disimpan.');
         
         return redirect('siswa');
     }
@@ -207,6 +212,8 @@ class SiswaController extends Controller
         //update data hobi di table hobi_siswa
         $siswa->hobi()->sync($request->input('hobi_siswa'));
 
+        Session::flash('flash_message', 'Data siswa berhasil di update.');
+
         return redirect('siswa');
     }
 
@@ -225,6 +232,10 @@ class SiswaController extends Controller
 
         //hapus data siswa
         $siswa->delete();
+
+        Session::flash('flash_message', 'Data siswa berhasil dihapus.');
+        Session::flash('penting', true);
+
         return redirect('siswa');
     }
 
@@ -317,8 +328,8 @@ class SiswaController extends Controller
 
             //Query
             $query = Siswa::where('nama_siswa', 'LIKE', '%' . $kata_kunci . '%'); //query pencarian berdasarkan nama
-            (!empty($jenis_kelamin)) ? $query->where('jenis_kelamin', $jenis_kelamin) : ''; //jika dropdown jenis_kelamin dipilih, tambahkan where jenis_kelamin pada query
-            (!empty($id_kelas)) ? $query->where('id_kelas', $id_kelas) : ''; //jika dropdown kelas dipilih, tambahkan where id_kelas pada query
+            (!empty($jenis_kelamin)) ? $query->JenisKelamin($jenis_kelamin) : ''; //jika dropdown jenis_kelamin dipilih, tambahkan jenis_kelain pada query dari scopeJenisKelamin yg ada di Model Siswa
+            (!empty($id_kelas)) ? $query->Kelas($id_kelas) : ''; //jika dropdown kelas dipilih, tambahkan id_kelas pada quer dari scopeKelas yg ada di Model Siswa
             $siswa_list = $query->paginate(2); //menampilkan 2 siswa per halaman
 
             //URL links pagination

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     // Alert sliding.
-    $('div.alert').not('.alert-important').delay(5000).slideUp(300);
+    $('div.alert').not('.alert-important').delay(1000).slideUp(300);
 
     // Hapus Select dengan empty value dari URL.
     $("#form-pencarian").submit(function () {

@@ -8,6 +8,7 @@
 
     <!-- BOOTSTRAP CSS -->
     <link rel="stylesheet" href="{{ asset('bootstrap_452/css/bootstrap.min.css') }}">
+     <!-- <link href="{{ asset('bootstrap-3.3.6-dist/css/bootstrap.min.css') }}" rel="stylesheet"> -->
 
     <!-- CSS Style -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -23,7 +24,7 @@
     @yield('footer')
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="{{ asset('js/jquery-3.5.1.slim.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-2.2.1.min.js') }}"></script>
     <script src="{{ asset('js/popper.min.js') }}"></script>
     <script src="{{ asset('bootstrap_452/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/siswakuapp.js') }}"></script>
