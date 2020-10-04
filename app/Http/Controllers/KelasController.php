@@ -8,8 +8,6 @@ use App\Kelas; //memanggil class Model Kelas
 
 use App\Http\Requests\KelasRequest; //memanggil class KelasRequest{}
 
-use Storage; //memanggil class STorage{}
-
 use Session; //memanggil class Session{} untuk flash message
 
 class KelasController extends Controller
@@ -38,7 +36,7 @@ class KelasController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\KelasRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(KelasRequest $request)
@@ -51,7 +49,7 @@ class KelasController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  App\Kelas $hobi
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -62,7 +60,7 @@ class KelasController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  App\Kelas $hobi
      * @return \Illuminate\Http\Response
      */
     public function edit(Kelas $kelas)
@@ -73,8 +71,8 @@ class KelasController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  App\Http\Requests\KelasRequest  $request
+     * @param  App\Kelas $hobi
      * @return \Illuminate\Http\Response
      */
     public function update(Kelas $kelas, KelasRequest $request)
@@ -87,7 +85,7 @@ class KelasController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  App\Kelas $hobi
      * @return \Illuminate\Http\Response
      */
     public function destroy(Kelas $kelas)

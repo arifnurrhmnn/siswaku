@@ -4,6 +4,9 @@
 
 Route::get('/', 'PagesController@homepage');
 Route::get('about', 'PagesController@about');
+
+Auth::routes(['register' => false]); //menonaktifkan route untuk halaman register
+
 Route::get('siswa/cari', 'SiswaController@cari');
 
 // Menangani method index(), create(), store(), show(), edit(), destroy(). 
@@ -18,4 +21,6 @@ Route::get('date-mutator', 'SiswaController@dateMutator');
 Route::get('halaman-rahasia', 'RahasiaController@halamanRahasia')->name('secret');
 
 Route::get('showmesecret', 'RahasiaController@showMeSecret');
+
+
 
