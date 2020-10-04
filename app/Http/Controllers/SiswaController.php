@@ -14,11 +14,21 @@ use App\Http\Requests\SiswaRequest; //memanggil class SiswaRequest{}
 use Storage; //memanggil class STorage{}
 
 use Session; //memanggil class Session{} untuk flash message
-// use Validator; //Memanggil class facade validator
-
 
 class SiswaController extends Controller
 {
+    public function __construct() 
+    {   
+        /**
+         * auth = melakukan authentcation
+         * except = mengecualikan method untuk di authentication
+         */
+        $this->middleware('auth', ['except' => [
+            'index',
+            'show',
+            'cari',
+        ]]);
+    }
     /**
      * all() = mengambil semua data
      * sortBy('nama_siswa') = mengurutkan data berdasarkan nama siswa secara asc

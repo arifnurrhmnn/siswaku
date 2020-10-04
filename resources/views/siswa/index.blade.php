@@ -5,7 +5,7 @@
     <h2>Siswa</h2>
 
     @include('_partial.flash_message')
-    
+
     @include('siswa.form_pencarian')
 
     @if (!empty($siswa_list))
@@ -18,7 +18,9 @@
                 <th>Tgl Lahir</th>
                 <th>JK</th>
                 <th>Telepon</th>
-                <th>Action</th>
+                @if (Auth::check())
+                    <th>Action</th>
+                @endif
             </tr>
         </thead>
         <tbody>
@@ -31,24 +33,26 @@
                     <td>{{ $siswa->jenis_kelamin }}</td>
                     <td>{{ !empty($siswa->telepon->nomor_telepon) ? $siswa->telepon->nomor_telepon : '-' }}</td>
                     <td>
-                        <div class="box-button">
-                            {{ link_to('siswa/' . $siswa->id, 'Detail', ['class' => 'btn btn-success btn-sm']) }}
-                        </div>
-                        <div class="box-button">
-                            {{ link_to('siswa/' . $siswa->id . '/edit', 'Edit', ['class' => 'btn btn-warning btn-sm']) }}
-                        </div>
-                        <div class="box-button">
-                            {!! Form::open(['method'=>'DELETE', 'action' => ['SiswaController@destroy', $siswa->id]] ) !!}
-                            {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
-                            {!! Form::close() !!}
-                        </div>
+                        @if (Auth::check())
+                            <div class="box-button">
+                                {{ link_to('siswa/' . $siswa->id, 'Detail', ['class' => 'btn btn-success btn-sm']) }}
+                            </div>
+                            <div class="box-button">
+                                {{ link_to('siswa/' . $siswa->id . '/edit', 'Edit', ['class' => 'btn btn-warning btn-sm']) }}
+                            </div>
+                            <div class="box-button">
+                                {!! Form::open(['method'=>'DELETE', 'action' => ['SiswaController@destroy', $siswa->id]] ) !!}
+                                {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                                {!! Form::close() !!}
+                            </div>
+                        @endif
                     </td>
                 </tr>
             <?php endforeach ?>
         </tbody>
     </table>
     @else
-    <p>Tidak ada data siswa</p>
+        <p>Tidak ada data siswa</p>
     @endif
 
     <div class="table-nav">
@@ -60,11 +64,13 @@
         </div>
     </div>
 
-    <div class="tombol-nav">
-        <div>
-            <a href="{{ url('siswa/create') }}" class="btn btn-primary">Tambah Siswa</a>
-        </div>
-    </div>
+    @if (Auth::check())
+        <div class="tombol-nav">
+            <div>
+                <a href="{{ url('siswa/create') }}" class="btn btn-primary">Tambah Siswa</a>
+            </div>
+        </div> 
+    @endif
 </div>
 @stop
 

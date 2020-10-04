@@ -12,6 +12,16 @@ use Session; //memanggil class Session{} untuk flash message
 
 class UserController extends Controller
 {
+    public function __construct() 
+    {   
+        /**
+         * auth = melakukan authentcation ke app/Http/Middleware/Authenticate.php
+         * admin = melakukan authentcation ke app/Http/Middleware/RedirectIfNotAdmin.php
+         */
+        $this->middleware('auth');
+        $this->middleware('admin');
+    }
+
     /**
      * Display a listing of the resource.
      *

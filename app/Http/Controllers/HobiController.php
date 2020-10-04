@@ -12,6 +12,14 @@ use Session; //memanggil class Session{} untuk flash message
 
 class HobiController extends Controller
 {
+    public function __construct() 
+    {   
+        /**
+         * auth = melakukan authentcation
+         */
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
