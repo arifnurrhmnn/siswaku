@@ -171,6 +171,16 @@ return [
             'string' => 'Nama HOBI harus berupa string.',
             'max' => 'Nama HOBI maksimal 30 karakter.', 
         ],
+        'email' => [
+            'required' => 'Nama EMAIL harus diisi.',
+            'email' => 'EMAIL harus valid.',
+            'max' => 'EMAIL maksimal 100 karakter',
+            'unique' => 'EMAIL sudah terdaftar',
+        ],
+        'password' => [
+            'confirmed' => 'PASSWORD tidak cocok dengan kolom konfirmasi password.',
+            'min' => 'PASSWORD minimal 6 karakter.',
+        ],
     ],
 
     /*

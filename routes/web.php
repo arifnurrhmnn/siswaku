@@ -13,6 +13,7 @@ Route::get('siswa/cari', 'SiswaController@cari');
 Route::resource('siswa', 'SiswaController');
 Route::resource('kelas', 'KelasController')->parameters(['kelas' => 'kelas']); //supaya nama kelas tidak terbaca kela karena plurar laravel
 Route::resource('hobi', 'HobiController');
+Route::resource('user', 'UserController');
 
 
 Route::get('date-mutator', 'SiswaController@dateMutator');

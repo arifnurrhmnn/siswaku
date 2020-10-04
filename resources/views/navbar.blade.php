@@ -45,11 +45,19 @@
                 <a class=" nav-link" href="{{ url('about') }}">About</a>
             </li>
             @endif
+
+            @if (!empty($halaman) && $halaman == 'user')
+            <li class="active">
+                <a class="nav-link" href="{{ url('user') }}">User<span class="sr-only">(current)</span></a>
+            <li>
+            @else
+            <li>
+                <a class="nav-link" href="{{ url('user') }}">User</a>
+            </li>
+            @endif
         </ul>
 
-        <!-- <form class="form-inline my-2 my-lg-0">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
-        </form> -->
+
         <!-- Link Login / Logout -->
         <ul class="nav navbar-nav navbar-right">
             @if (Auth::check())
