@@ -15,7 +15,7 @@
                 ['class' => 'form-control', 'placeholder' => 'Masukkan nama siswa']) !!}
                 <span class="input-group-btn">
                     {!! Form::button('Cari', 
-                    ['class' => 'btn btn-default', 'type' => 'submit']) !!}
+                    ['class' => 'btn btn-primary', 'type' => 'submit']) !!}
                 </span>
             </div>
         </div>

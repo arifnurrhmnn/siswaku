@@ -50,7 +50,7 @@
         <div class="form-group">
 @endif
 {!! Form::label('password', 'PASSWORD:', ['class' => 'control-label']) !!}
-{!! Form::password('password', null, ['class' => 'form-control']) !!}
+{!! Form::password('password', ['class' => 'form-control']) !!}
 @if ($errors->has('password'))
     <span class="help-block">{{ $errors->first('password') }}</span>
 @endif
@@ -62,7 +62,7 @@
         <div class="form-group">
 @endif
 {!! Form::label('password_confirmation', 'PASSWORD CONFIRMATION:', ['class' => 'control-label']) !!}
-{!! Form::password('password_confirmation', null, ['class' => 'form-control']) !!}
+{!! Form::password('password_confirmation', ['class' => 'form-control']) !!}
 @if ($errors->has('password_confirmation'))
     <span class="help-block">{{ $errors->first('password_confirmation') }}</span>
 @endif

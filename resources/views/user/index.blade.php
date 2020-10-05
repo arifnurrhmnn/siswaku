@@ -1,7 +1,7 @@
 @extends('template')
 
 @section('main')
-<div id="user" class="mt-4">
+<div id="user">
     <h2>User</h2>
 
     @include('_partial.flash_message')

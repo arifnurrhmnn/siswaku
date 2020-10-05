@@ -15,9 +15,12 @@
 </head>
 
 <body>
-
-    <div class="container">
+    <div class="fluid-container bg-light">
+        <div class="container">
         @include('navbar')
+    </div>
+    </div>
+    <div class="container mt-4">
         @yield('main')
     </div>
 

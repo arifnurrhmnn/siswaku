@@ -6,3 +6,7 @@
     <p>Aplikasi <strong>SISWAKU</strong> dibuat sebagai latihan untuk mempelajari Laravel.</p>
 </div>
 @stop
+
+@section('footer')
+    @include('footer')
+@stop

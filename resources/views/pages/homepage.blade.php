@@ -9,5 +9,5 @@
 @stop
 
 @section('footer')
-@include('footer')
+    @include('footer')
 @stop

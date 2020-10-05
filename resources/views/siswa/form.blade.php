@@ -14,7 +14,6 @@
         @endif
     </div>
 
-
     @if ($errors->any())
     <div class="form-group {{ $errors->has('nama_siswa')? 'has-error' : 'has-success' }}">
         @else
@@ -26,7 +25,6 @@
             <span class="help-block">{{ $errors->first('nama_siswa') }}</span>
             @endif
         </div>
-
 
         @if ($errors->any())
         <div class="form-group {{ $errors->has('tanggal_lahir')? 'has-error' : 'has-success' }}">
